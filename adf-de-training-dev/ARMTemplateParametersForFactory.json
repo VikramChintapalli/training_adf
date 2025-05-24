@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-de-training-dev"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzSql_GenericLinkedService_properties_typeProperties_server": {
+			"value": "trainingsewrver.database.windows.net"
+		},
+		"AzSql_GenericLinkedService_properties_typeProperties_database": {
+			"value": "@{linkedService().Database}"
+		},
+		"AzSql_GenericLinkedService_properties_typeProperties_userName": {
+			"value": "testadmin"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://detraining25.dfs.core.windows.net/"
+		},
+		"AzureKeyVault_lks_properties_typeProperties_baseUrl": {
+			"value": "https://de-Credentials.vault.azure.net/"
+		},
+		"trigger_storage_properties_pl_trigger_job_parameters_filename": {
+			"value": "@triggerBody().fileName"
+		},
+		"trigger_storage_properties_typeProperties_scope": {
+			"value": "/subscriptions/594e63df-4c98-4826-8eb8-99b16f59c073/resourceGroups/RG-DE-Training-25/providers/Microsoft.Storage/storageAccounts/detraining25"
+		}
+	}
+}

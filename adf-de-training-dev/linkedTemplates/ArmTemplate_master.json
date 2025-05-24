@@ -1,0 +1,98 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-de-training-dev"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"AzSql_GenericLinkedService_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "trainingsewrver.database.windows.net"
+		},
+		"AzSql_GenericLinkedService_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "@{linkedService().Database}"
+		},
+		"AzSql_GenericLinkedService_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "testadmin"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://detraining25.dfs.core.windows.net/"
+		},
+		"AzureKeyVault_lks_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://de-Credentials.vault.azure.net/"
+		},
+		"trigger_storage_properties_pl_trigger_job_parameters_filename": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"trigger_storage_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/594e63df-4c98-4826-8eb8-99b16f59c073/resourceGroups/RG-DE-Training-25/providers/Microsoft.Storage/storageAccounts/detraining25"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adf-de-training-dev_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"AzureKeyVault_lks_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault_lks_properties_typeProperties_baseUrl')]"
+					},
+					"AzSql_GenericLinkedService_properties_typeProperties_server": {
+						"value": "[parameters('AzSql_GenericLinkedService_properties_typeProperties_server')]"
+					},
+					"AzSql_GenericLinkedService_properties_typeProperties_database": {
+						"value": "[parameters('AzSql_GenericLinkedService_properties_typeProperties_database')]"
+					},
+					"AzSql_GenericLinkedService_properties_typeProperties_userName": {
+						"value": "[parameters('AzSql_GenericLinkedService_properties_typeProperties_userName')]"
+					},
+					"trigger_storage_properties_pl_trigger_job_parameters_filename": {
+						"value": "[parameters('trigger_storage_properties_pl_trigger_job_parameters_filename')]"
+					},
+					"trigger_storage_properties_typeProperties_scope": {
+						"value": "[parameters('trigger_storage_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
