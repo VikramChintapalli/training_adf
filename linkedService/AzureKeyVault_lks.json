@@ -1,0 +1,11 @@
+{
+	"name": "AzureKeyVault_lks",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://de-Credentials.vault.azure.net/"
+		}
+	}
+}

@@ -1,0 +1,28 @@
+{
+	"name": "trigger_storage",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_trigger_job",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"filename": "@triggerBody().fileName"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/source/blobs/stirage_trigger/",
+			"blobPathEndsWith": ".csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/594e63df-4c98-4826-8eb8-99b16f59c073/resourceGroups/RG-DE-Training-25/providers/Microsoft.Storage/storageAccounts/detraining25",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

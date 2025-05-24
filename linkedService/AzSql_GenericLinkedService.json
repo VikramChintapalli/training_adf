@@ -1,0 +1,30 @@
+{
+	"name": "AzSql_GenericLinkedService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"Database": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "trainingsewrver.database.windows.net",
+			"database": "@{linkedService().Database}",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "testadmin",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault_lks",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "adminpasscode",
+				"secretVersion": "dc2561a86cdf4d89b931a24d1a903874"
+			}
+		}
+	}
+}

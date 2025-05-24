@@ -1,0 +1,27 @@
+{
+	"name": "Trigger_First_Scheduled",
+	"properties": {
+		"annotations": [
+			"Daily Trigger"
+		],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2025-05-22T01:34:00",
+				"timeZone": "India Standard Time",
+				"schedule": {
+					"minutes": [
+						25
+					],
+					"hours": [
+						7
+					]
+				}
+			}
+		}
+	}
+}

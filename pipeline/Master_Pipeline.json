@@ -1,0 +1,59 @@
+{
+	"name": "Master_Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "invoke_Pipeline2",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "developer",
+						"value": "Vikram"
+					},
+					{
+						"name": "Purpose",
+						"value": "Invoke Pipeline2"
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline2",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"product": {
+							"value": "@pipeline().parameters.Product",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"Product": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"run_ids": {
+				"type": "Array"
+			},
+			"random": {
+				"type": "String"
+			},
+			"finalappendedvariable": {
+				"type": "Array"
+			}
+		},
+		"annotations": [
+			"Vikram_DE"
+		],
+		"lastPublishTime": "2025-05-22T01:26:11Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

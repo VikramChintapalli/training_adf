@@ -1,0 +1,31 @@
+{
+	"name": "trigger_tumbling2",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"type": "TumblingWindowTrigger",
+		"typeProperties": {
+			"frequency": "Minute",
+			"interval": 5,
+			"startTime": "2025-05-23T02:45:00Z",
+			"endTime": "2025-05-23T03:45:00Z",
+			"delay": "00:00:30",
+			"maxConcurrency": 50,
+			"retryPolicy": {
+				"count": 0,
+				"intervalInSeconds": 30
+			},
+			"dependsOn": [
+				{
+					"type": "TumblingWindowTriggerDependencyReference",
+					"size": "0.00:05:00",
+					"offset": "-0.00:04:00",
+					"referenceTrigger": {
+						"referenceName": "trigger_tumbling",
+						"type": "TriggerReference"
+					}
+				}
+			]
+		}
+	}
+}
