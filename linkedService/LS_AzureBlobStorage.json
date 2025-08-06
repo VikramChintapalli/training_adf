@@ -1,0 +1,11 @@
+{
+	"name": "LS_AzureBlobStorage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "BlobEndpoint=https://adfadlssource.blob.core.windows.net/;QueueEndpoint=https://adfadlssource.queue.core.windows.net/;FileEndpoint=https://adfadlssource.file.core.windows.net/;TableEndpoint=https://adfadlssource.table.core.windows.net/;SharedAccessSignature=sv=2024-11-04&ss=bfqt&srt=sc&sp=rwdlacupyx&se=2025-08-07T10:03:36Z&st=2025-08-06T01:48:36Z&spr=https&sig=jvT%2Bt3H0%2FVFExs8xSvFab0VgUxLX5fyIMeu7TDzJKPc%3D"
+		},
+		"annotations": []
+	}
+}

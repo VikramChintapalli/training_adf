@@ -1,0 +1,148 @@
+{
+	"name": "PL_Main_Orchestrator",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupEnabledPipelines",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT * FROM dbo.Pipelines_Control WHERE IsEnabled = 1",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_Metadata_Control",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachPipeline",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "LookupEnabledPipelines",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LookupEnabledPipelines').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "SwitchOnIngestionType",
+							"type": "Switch",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"on": {
+									"value": "@item().IngestionType",
+									"type": "Expression"
+								},
+								"cases": [
+									{
+										"activities": [
+											{
+												"name": "ExecuteSqlIngestion",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"policy": {
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "PL_Ingest_AzureSql",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true,
+													"parameters": {
+														"sourceSchema": {
+															"value": "@item().SourceTableSchema",
+															"type": "Expression"
+														},
+														"sourceTable": {
+															"value": "@item().SourceTableName",
+															"type": "Expression"
+														},
+														"sinkSchema": {
+															"value": "@item().SinkTableSchema",
+															"type": "Expression"
+														},
+														"sinkTable": {
+															"value": "@item().SinkTableName",
+															"type": "Expression"
+														}
+													}
+												}
+											}
+										]
+									},
+									{
+										"activities": [
+											{
+												"name": "ExecuteCsvIngestion",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"policy": {
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "PL_Ingest_CsvToSql",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true,
+													"parameters": {
+														"sourceContainer": {
+															"value": "@item().SourceContainer",
+															"type": "Expression"
+														},
+														"sourceFile": {
+															"value": "@item().SourceFile",
+															"type": "Expression"
+														},
+														"sinkSchema": {
+															"value": "@item().SinkTableSchema",
+															"type": "Expression"
+														},
+														"sinkTable": {
+															"value": "@item().SinkTableName",
+															"type": "Expression"
+														}
+													}
+												}
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-08-06T02:19:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
